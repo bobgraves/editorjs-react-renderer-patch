@@ -41,16 +41,19 @@ const TableOutput = ({ data, style, classNames, config }) => {
   if (!Array.isArray(content) || content.length < 1) return '';
 
   // cannot be destuctive to the original content.
+  console.log('TableRenderer fixing content');
   let content = [];
   Object.assign(content,  _content);
-  const columnNames = content.shift();
+  const columnNames = content[0];
+  // skipHeadings -> just use data
+  let skipHeadings = true;
 
   return <table style={ tableStyle } className={ classNames.table }>
-    <thead>
+    {!skipHeadings && <thead>
       <tr style={ trStyle } className={ classNames.tr }>
         { columnNames.map((columnName, index) => <th key={ index } style={ thStyle } className={ classNames.th }>{ ReactHtmlParser(columnName) }</th>) }
       </tr>
-    </thead>
+    </thead>}
     <tbody>
       {
         content.map((row, index) => (
